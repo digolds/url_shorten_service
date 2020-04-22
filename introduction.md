@@ -60,9 +60,14 @@ With the front end and back end systems building on top of high available and st
 * 3 step: ElasticCache will cache part of url resources and provide in-memory access to the resources
 * 4 step: if requesting url resource is not exist in ElasticCache, then lambda function will get url resource from DynamoDB through NAT and IGW
 
-When you have a clear mind on the details of what makes of url shorten service, it's time to consider why we craft it with that fashion! Go ahead and read it.
+When you have a clear mind on the details of what makes of url shorten service, it's time to consider why we craft it with that fashion. Go ahead and read it!
 
 ## Approach
+
+The url shorten service is a stateful application, which means there should have a data layer to store url resources. Here, we choose DynamoDB as the main storage for url shorten service. It's a key-value database and fully managed with signle-digit millisecond performance at any scale.
+
+Although DynamoDB can provide great performance for getting and setting data, it still limits by its read and write capacity. So we choose a middleware called ElasticCahce to mitigate the workloads in data layer.
+
 The approach you took, the service you compared and why choose these services by the end.
 What’s the advantages compared one or the other. What’s the limitation for this service?
 What’s the trade off and why made such decision?
