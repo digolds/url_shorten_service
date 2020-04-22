@@ -66,11 +66,15 @@ When you have a clear mind on the details of what makes of url shorten service, 
 
 The url shorten service is a stateful application, which means there should have a data layer to store url resources. Here, we choose DynamoDB as the main storage for url shorten service. It's a key-value database and fully managed with signle-digit millisecond performance at any scale.
 
-Although DynamoDB can provide great performance for getting and setting data, it still limits by its read and write capacity. So we choose a middleware called ElasticCahce to mitigate the workloads in data layer.
+Although DynamoDB can provide great performance for getting and setting data, it still limits by its read and write capacity. So we choose a middleware called ElasticCahce to mitigate the workloads in data layer. The middleware is a Memcached-compatible in-memory key-value store cluster, which brings the benifits of ultra performance, fully managed, easy to scale etc., making it adaptable for scenario where data should be frequently accessed in memory.
 
-The approach you took, the service you compared and why choose these services by the end.
-What’s the advantages compared one or the other. What’s the limitation for this service?
-What’s the trade off and why made such decision?
+After setting up data layer, the next step is to build up application layer, this is where Lambda Function come to play. As part of serverless foundation, Lambda Function bring a lot of benifits, including no servers to manage, continuous scaling, consistent performance etc. However, there are some drawbacks exist in Lambda Function. One is that, you can not host complex logic, such as image processing, in lambda function instance for the reason of limit storage. Instead, there are timeout limit for lambda function, which means time-comsuming task is not well fit for Lambda Function. Last but not the least, if you specific VPC for lambda function, you must pay attention to the issue that ENIs may be used up by a large number of concurrently active lambda function instance in that VPC.
+
+As for the url shorten service, the permitted operations exposuring to end users are simple, that is generating shorter url and redirecting to original url. It seems not necessary to boost a fleet of EC2 instances to host the light-weight application, not to mention that you have to put effort to manage these EC2 instance, such as updating patch for OS, designing a strategy for auto scale, and doing load balance among them etc.
+
+The architecture design mentioned above is well fit for the begining phase of url shorten service for the reason that you can promote a not so bad service quickly to market with little effort. However, when more users begin to use this service, it's time to consider leveraging EC2 instance to serve them from the point of cutting down cost. Instead, as the the number of url resources burst, there should have a place (something like S3) to back up these resources for the sake of disaster recovery.
+
+In short, there is not a solution fit to all, as business growing, there may have more features to add. New solution should be developed to couple with new requirements from the view of saving cost, increasing security, keeping high availability, scoping regulation and compliance etc.
 
 ## Business Outcome
 Potentially the business outcome and usability for this service.
