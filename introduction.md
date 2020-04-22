@@ -77,12 +77,19 @@ The architecture design mentioned above is well fit for the begining phase of ur
 In short, there is not a solution fit to all, as business growing, there may have more features to add. New solution should be developed to couple with new requirements from the view of saving cost, increasing security, keeping high availability, scoping regulation and compliance etc.
 
 ## Business Outcome
+
+The potential business outcomes of url shorten service may include
 Potentially the business outcome and usability for this service.
 
 ## Go Live
+
+Although you can visit the url shorten service by typing [digolds.top](https://digolds.top) in browser, however, there are still some of things need to get done before go to production. That is, a fire wall should be configured to API Gateway in order to prohibit unhealthy traffics such as robot traffics.
+
 What should be done before your solution go to production? Any additional features or
 function that could bring a better user experience in your mind?
 
 ## Source Code
-Attach the source code at the end.
-Attach the IAM read access credential at the end.
+
+The source code is compose of handlers, terraform, views, swagger-ui, and tests. you can use code in terraform folder to provision infrastructures in AWS.
+
+The IAM read access credential is showed below. Feel free to play it around and give any feedbacks as good ideas appearing in your mind!
