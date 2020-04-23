@@ -100,3 +100,9 @@ For a better user experience, there should have a url resources management porta
 The source code is compose of handlers, terraform, views, swagger-ui, tests, and is hosted in github. The AWS resources are provisioned by terraform tool, so, the terraform folder contains 2 groups, one for staing, the other is for prod.
 
 The IAM read access credential is showed below. Feel free to play it around and give any feedbacks as good ideas appearing in your mind!
+
+* Console login link: https://120699691161.signin.aws.amazon.com/console
+* User name: review_test
+* Password: 6|JEO-]2+g3W
+* Access key ID: AKIARYGSDECM3Q6GKMM2
+* Secret access key: LZUn5AiyuZNTb/MxuCkqN58ZcTB2x2881T+7+8+W
