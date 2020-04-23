@@ -78,15 +78,18 @@ In short, there is not a solution fit to all, as business growing, there may hav
 
 ## Business Outcome
 
-The potential business outcomes of url shorten service may include
+The potential business outcomes of url shorten service may include customers outcomes and company outcomes.
+
+For customers outcomes, marketers can exposure their brands to market without spending a dollar by making use of it to generate shorter urls. End users can easily remember the shorter urls and get access to it.
+
+For company outcomes, the goal of url shorten service in the first phase is to acquire more potential customers and end users, which is the foundation for the next phase.
 Potentially the business outcome and usability for this service.
 
 ## Go Live
 
-Although you can visit the url shorten service by typing [digolds.top](https://digolds.top) in browser, however, there are still some of things need to get done before go to production. That is, a fire wall should be configured to API Gateway in order to prohibit unhealthy traffics such as robot traffics.
+Although you can visit the url shorten service by typing [digolds.top](https://digolds.top) in browser, however, there are still some of things need to get done before go to production. That is, a fire wall should be configured to API Gateway in order to prohibit unhealthy traffics such as robot traffics. Instead, authentication and authority should be added to API Gateway in order to seperate url resources by individual.
 
-What should be done before your solution go to production? Any additional features or
-function that could bring a better user experience in your mind?
+For a better user experience, there should have a url resources management portal, which can show how popular the url in what platform is, including some metric such as click through rate for urls.
 
 ## Source Code
 

@@ -38,5 +38,5 @@ def generate_a_shorter_url(event, context):
 
 def generate_id(number):
     res = ''.join(
-        random.choices(string.ascii_uppercase + string.digits, k=number))
+        random.choices(string.ascii_letters + string.digits, k=number))
     return res

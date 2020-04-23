@@ -22,14 +22,34 @@
             document.body.removeChild(el);
         };
 
+        function isValidUrl(string) {
+                try {
+                    new URL(string);
+                } catch (_) {
+                    return false;
+                }
+
+                return true;
+            }
+
         $(function () {
-            var $dropdown = UIkit.dropdown('.uk-dropdown', {});
             $("#copy_shorter_url").click(function () {
                 copyToClipboard($("#shorten_url_id").attr("href"));
                 UIkit.notification('Copy to paste success! \n' + $("#shorten_url_id").attr("href"));
             });
+
             $("#submitBtn").click(function () {
                 var url = $("#myInput").val();
+
+                if(!isValidUrl(url)){
+                    UIkit.notification('Invalid url', {status:'danger'});
+                    return;
+                }
+
+                UIkit.dropdown('.uk-dropdown', {
+                    mode : "click"
+                });
+
                 var endPoint = url_shorten_service.end_point_generating_shorter_url;
                 $.post(endPoint,
                     JSON.stringify({ "original_url": url }),
@@ -37,12 +57,8 @@
                         var newUrl = endPoint + "/" + data.Id;
                         $("#shorten_url_id").attr("href", newUrl);
                         $("#shorten_url_id").text(newUrl);
-                        console.log(data);
-                        $dropdown.show();
+                        UIkit.dropdown('.uk-dropdown').show();
                     });
-            });
-            $("form").submit(function (event) {
-                event.preventDefault();
             });
         });
     </script>
@@ -51,28 +67,26 @@
 <body>
     <div id="main" class='uk-container uk-container-small'>
         <div class="uk-flex uk-flex-center uk-position-center">
-            <form class="uk-grid-small" uk-grid>
-                <div class="uk-width-large">
+            <div class="uk-grid-small" uk-grid>
+                <div class="uk-width-small@s uk-width-large@m">
                     <input id="myInput" class="uk-input" type="text" placeholder="Url to shorten">
                 </div>
                 <div class="uk-width-auto">
-                    <button id="submitBtn" class="uk-button uk-button-primary">Submit</button>
+                    <button id="submitBtn" class="uk-border-rounded uk-button uk-button-primary">Shorten</button>
                 </div>
-                <div class="uk-width-1-1">
-                    <div class="uk-margin-top" uk-dropdown="mode:click">
-                        <div>
-                            <div uk-grid>
-                                <div class="uk-width-auto">
-                                    <a id="shorten_url_id" href=""></a>
-                                </div>
-                                <div class="uk-width-auto">
-                                    <button id="copy_shorter_url" class="uk-button uk-button-primary">Copy</button>
-                                </div>
+                <div class="uk-width-1-1 uk-dropdown">
+                    <div>
+                        <div uk-grid>
+                            <div class="uk-width-auto">
+                                <a id="shorten_url_id" href=""></a>
+                            </div>
+                            <div class="uk-width-auto">
+                                <button id="copy_shorter_url" class="uk-border-rounded uk-button uk-button-primary">Copy</button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </body>
