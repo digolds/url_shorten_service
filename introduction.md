@@ -18,6 +18,8 @@ Feel free to read the guide from start to finish or skip around to whatever part
 
 a shorter url can be shared in any kind of digital contents, such as Posts on SNS, newspaper etc. Anyone who has internet access, can visit the shorter url without limits, so the traffics [digolds.top](https://digolds.top) serve are public to the world.
 
+The back end apis are public at [api.digolds.top](https://api.digolds.top) with swagger ui.
+
 You may urge to know how [digolds.top](https://digolds.top) stores these shorter urls and makes them easy to access, how to make it serve hundreds of thousands of end users on internet, and how to build up a foundation for better development of shipping new features to [digolds.top](https://digolds.top). Well, with all these questions in mind, Let's dive into the following part.
 
 ## Service design
@@ -76,6 +78,8 @@ The architecture design mentioned above is well fit for the begining phase of ur
 
 In short, there is not a solution fit to all, as business growing, there may have more features to add. New solution should be developed to couple with new requirements from the view of saving cost, increasing security, keeping high availability, scoping regulation and compliance etc.
 
+The over all architecture is designed in a single AWS account, however, in reality, multiple accounts should be created to isolate different environments, such as a security account for manage IAM users, a prod account for real online service, a staging account for internal test, and of course the mgnt account for CI/CD activity.
+
 ## Business Outcome
 
 The potential business outcomes of url shorten service may include customers outcomes and company outcomes.
@@ -89,10 +93,10 @@ Potentially the business outcome and usability for this service.
 
 Although you can visit the url shorten service by typing [digolds.top](https://digolds.top) in browser, however, there are still some of things need to get done before go to production. That is, a fire wall should be configured to API Gateway in order to prohibit unhealthy traffics such as robot traffics. Instead, authentication and authority should be added to API Gateway in order to seperate url resources by individual.
 
-For a better user experience, there should have a url resources management portal, which can show how popular the url in what platform is, including some metric such as click through rate for urls.
+For a better user experience, there should have a url resources management portal, which can show how popular the urls in what platform is, including some metric such as click through rate for urls.
 
 ## Source Code
 
-The source code is compose of handlers, terraform, views, swagger-ui, and tests. you can use code in terraform folder to provision infrastructures in AWS.
+The source code is compose of handlers, terraform, views, swagger-ui, tests, and is hosted in github. The AWS resources are provisioned by terraform tool, so, the terraform folder contains 2 groups, one for staing, the other is for prod.
 
 The IAM read access credential is showed below. Feel free to play it around and give any feedbacks as good ideas appearing in your mind!
