@@ -9,6 +9,8 @@ This guide will walk you through the process of crafting a production-grade shor
 3. Approach
 4. Business Outcome
 5. Go Live
+6. Source Code
+7. Reference
 
 Feel free to read the guide from start to finish or skip around to whatever part interests you.
 
@@ -97,3 +99,13 @@ For a better user experience, there should have a url resources management porta
 ## Source Code
 
 The source code is compose of handlers, terraform, views, swagger-ui, tests, and is hosted in github. The AWS resources are provisioned by terraform tool, so, the terraform folder contains 2 groups, one for staing, the other is for prod.
+
+## Reference
+
+1. [Access Resources in a VPC from AWS CodeBuild Builds](https://aws.amazon.com/blogs/devops/access-resources-in-a-vpc-from-aws-codebuild-builds/)
+2. [Configuring an AWS Lambda Function to Access Both Resources in Public Internet and an Amazon VPC](http://blog.hde.co.jp/entry/2016/05/19/102706)
+3. [Serverless Applications with AWS Lambda and API Gateway](https://learn.hashicorp.com/terraform/aws/lambda-api-gateway)
+4. [GIT Tags Guide - Create, delete, push tags to remote and much more](https://www.drupixels.com/blog/git-tags-guide-create-delete-push-tags-remote-and-much-more)
+5. [How cidrsubnet works in Terraform](https://medium.com/@ntwobike/how-cidrsubnet-works-in-terraform-f6ccd8e1838f)
+6. [How do I set up API Gateway with my own CloudFront distribution?](https://aws.amazon.com/premiumsupport/knowledge-center/api-gateway-cloudfront-distribution/)
+7. [Configuring a Lambda Function to Access Resources in a VPC](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html)
