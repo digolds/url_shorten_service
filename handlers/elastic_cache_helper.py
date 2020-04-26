@@ -11,11 +11,16 @@ class simple_cache(dict):
         self = dict() 
 
     def set(self, key, value): 
-        pass
+        self[key] = value.encode('utf-8')
 
-memcache_client = simple_cache()
+    def get(self, key):
+        v = super().get(key, b'')
+        return v
+
+memcache_client = None
 
 def get_elastic_cache_client():
+    return simple_cache()
     global memcache_client
     if memcache_client:
         return memcache_client
