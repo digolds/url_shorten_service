@@ -6,8 +6,14 @@ import elasticache_auto_discovery
 from pymemcache.client.hash import HashClient
 import config
 
-memcache_client = None
+class simple_cache(dict): 
+    def __init__(self): 
+        self = dict() 
 
+    def set(self, key, value): 
+        pass
+
+memcache_client = simple_cache()
 
 def get_elastic_cache_client():
     global memcache_client
