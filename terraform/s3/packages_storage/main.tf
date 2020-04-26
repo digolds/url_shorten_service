@@ -8,7 +8,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "packages_storage" {
-  bucket = "lambda-functions-packages-storage"
+  bucket = "lambda-packages-url-service"
   acl    = "private"
 
   versioning {

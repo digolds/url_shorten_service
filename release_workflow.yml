@@ -1,7 +1,7 @@
 version: 0.2
 env:
   variables:
-    S3_BUCKET: "codepipeline-us-east-2-709900867590"
+    S3_BUCKET: "lambda-packages-url-service"
     WEBPAGES_S3_BUCKET: "shorten-url-service"
     SERVERLESS_PREFIX: "master_workflow/serverless"
     SWAGGER_UI_BUCKET: "swagger-ui-for-url-shorten-service"

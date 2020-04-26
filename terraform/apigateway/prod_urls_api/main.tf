@@ -52,16 +52,6 @@ resource "aws_api_gateway_integration" "lambda_root" {
   uri                     = data.terraform_remote_state.lambda_functions_state.outputs.generate_a_shorter_url_function_obj.invoke_arn
 }
 
-resource "aws_api_gateway_deployment" "staging" {
-  depends_on = [
-    aws_api_gateway_integration.lambda,
-    aws_api_gateway_integration.lambda_root,
-  ]
-
-  rest_api_id = aws_api_gateway_rest_api.api.id
-  stage_name  = "staging"
-}
-
 resource "aws_api_gateway_deployment" "production" {
   depends_on = [
     aws_api_gateway_integration.lambda,
@@ -96,10 +86,6 @@ data "terraform_remote_state" "lambda_functions_state" {
   config = {
     path = "../../lambda/prod_lambda_functions/terraform.tfstate"
   }
-}
-
-output "api_invoke_url_staging" {
-  value = aws_api_gateway_deployment.staging.invoke_url
 }
 
 output "api_invoke_url_production" {

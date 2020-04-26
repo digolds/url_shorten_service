@@ -62,16 +62,6 @@ resource "aws_api_gateway_deployment" "staging" {
   stage_name  = "staging"
 }
 
-resource "aws_api_gateway_deployment" "production" {
-  depends_on = [
-    aws_api_gateway_integration.lambda,
-    aws_api_gateway_integration.lambda_root,
-  ]
-
-  rest_api_id = aws_api_gateway_rest_api.api.id
-  stage_name  = "production"
-}
-
 resource "aws_lambda_permission" "apigw_redirect_from_function" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
@@ -100,8 +90,4 @@ data "terraform_remote_state" "lambda_functions_state" {
 
 output "api_invoke_url_staging" {
   value = aws_api_gateway_deployment.staging.invoke_url
-}
-
-output "api_invoke_url_production" {
-  value = aws_api_gateway_deployment.production.invoke_url
 }

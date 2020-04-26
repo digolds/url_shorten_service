@@ -29,7 +29,7 @@ locals {
     zone_id => cidrsubnet(var.cidr_block, var.newbits_for_cache, index(data.aws_availability_zones.available.zone_ids, zone_id) + 1)
   }
   public_subnet_cidr_blocks = var.newbits_for_public_subnet == 0 ? {} : {
-    for zone_id in data.aws_availability_zones.available.zone_ids :
+    for zone_id in [data.aws_availability_zones.available.zone_ids[0]] :
     zone_id => cidrsubnet(var.cidr_block, var.newbits_for_public_subnet, index(data.aws_availability_zones.available.zone_ids, zone_id) + 1)
   }
 }
@@ -118,7 +118,7 @@ resource "aws_eip" "eips" {
 }
 
 locals {
-  public_ips = zipmap(data.aws_availability_zones.available.zone_ids, concat([aws_eip.eip, ], aws_eip.eips))
+  public_ips = zipmap([data.aws_availability_zones.available.zone_ids[0]], concat([aws_eip.eip, ], aws_eip.eips))
 }
 
 
