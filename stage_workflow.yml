@@ -25,7 +25,7 @@ phases:
       - aws s3 cp $CODEBUILD_RESOLVED_SOURCE_VERSION.zip s3://$S3_BUCKET/$SERVERLESS_PREFIX/ --sse aws:kms
       - cd ..
       - mkdir swagger-ui/v1
-      - aws apigateway get-export --parameters extensions='apigateway' --rest-api-id ydjv5adz76 --stage-name staging --export-type swagger swagger-ui/v1/url_shorten_service.json
+      - aws apigateway get-export --parameters extensions='apigateway' --rest-api-id qbocnpbmka --stage-name staging --export-type swagger swagger-ui/v1/url_shorten_service.json
       - aws s3 cp swagger-ui s3://$SWAGGER_UI_BUCKET/ --recursive
       - zip -r ALL_$CODEBUILD_RESOLVED_SOURCE_VERSION.zip .
       - aws s3 cp ALL_$CODEBUILD_RESOLVED_SOURCE_VERSION.zip s3://$S3_BUCKET/$SERVERLESS_PREFIX/ --sse aws:kms

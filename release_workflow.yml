@@ -2,9 +2,9 @@ version: 0.2
 env:
   variables:
     S3_BUCKET: "lambda-packages-url-service"
-    WEBPAGES_S3_BUCKET: "shorten-url-service"
+    WEBPAGES_S3_BUCKET: "static-web-for-prod"
     SERVERLESS_PREFIX: "master_workflow/serverless"
-    SWAGGER_UI_BUCKET: "swagger-ui-for-url-shorten-service"
+    SWAGGER_UI_BUCKET: "swagger-ui-for-prod"
 
 phases:
   post_build:

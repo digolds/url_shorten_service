@@ -28,7 +28,7 @@ data "aws_iam_policy_document" "self_policy" {
 }
 
 locals {
-  bucket_name = "shorten-url-service"
+  bucket_name = "static-web-for-prod"
 }
 
 

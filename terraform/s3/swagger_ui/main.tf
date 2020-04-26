@@ -27,7 +27,7 @@ data "aws_iam_policy_document" "self_policy" {
 }
 
 locals {
-  bucket_name = "swagger-ui-for-url-shorten-service"
+  bucket_name = "swagger-ui-for-prod"
 }
 
 
