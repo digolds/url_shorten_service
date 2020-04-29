@@ -109,3 +109,4 @@ The source code is compose of handlers, terraform, views, swagger-ui, tests, and
 5. [How cidrsubnet works in Terraform](https://medium.com/@ntwobike/how-cidrsubnet-works-in-terraform-f6ccd8e1838f)
 6. [How do I set up API Gateway with my own CloudFront distribution?](https://aws.amazon.com/premiumsupport/knowledge-center/api-gateway-cloudfront-distribution/)
 7. [Configuring a Lambda Function to Access Resources in a VPC](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html)
+8. [Creating AWS Lambda Applications With SAM](https://itnext.io/creating-aws-lambda-applications-with-sam-dd13258c16dd)
