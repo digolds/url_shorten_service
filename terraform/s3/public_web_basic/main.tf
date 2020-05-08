@@ -23,10 +23,10 @@ data "aws_iam_policy_document" "self_policy" {
 
 
 resource "aws_s3_bucket" "static_web_site" {
-  bucket = var.bucket_name
-  acl    = "public-read"
-
-  policy = data.aws_iam_policy_document.self_policy.json
+  bucket        = var.bucket_name
+  acl           = "public-read"
+  force_destroy = true
+  policy        = data.aws_iam_policy_document.self_policy.json
 
   website {
     index_document = "index.html"
@@ -43,6 +43,6 @@ output "s3_obj" {
 }
 
 variable "bucket_name" {
-  type = string
+  type    = string
   default = "shorten-url-service"
 }

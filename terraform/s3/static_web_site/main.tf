@@ -43,6 +43,8 @@ resource "aws_s3_bucket" "static_web_site" {
     error_document = "error.html"
   }
 
+  force_destroy = true
+
   versioning {
     enabled = true
   }

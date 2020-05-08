@@ -42,6 +42,8 @@ resource "aws_s3_bucket" "swagger_web_site" {
     error_document = "error.html"
   }
 
+  force_destroy = true
+
   versioning {
     enabled = true
   }

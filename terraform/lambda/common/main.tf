@@ -9,10 +9,6 @@ resource "aws_lambda_function" "lambda_function_instance" {
   handler          = "${var.handler_name}.${var.handler_name}"
   source_code_hash = filebase64sha256("../init_version.zip")
   runtime          = "python3.6"
-  vpc_config {
-    subnet_ids         = [for k, v in data.terraform_remote_state.vpc_app_state.outputs.lambda_subnets : v.id]
-    security_group_ids = [data.terraform_remote_state.vpc_peering_state.outputs.sg_for_lambda.id, ]
-  }
 
   environment {
     variables = {
