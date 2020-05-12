@@ -175,3 +175,5 @@ Redirecting URL response time 1ms
 ## 参考
 
 [Designing a URL Shortening service like TinyURL](https://www.educative.io/courses/grokking-the-system-design-interview/m2ygV4E81AR)
+[How to Design a Scalable Rate Limiting Algorithm](https://konghq.com/blog/how-to-design-a-scalable-rate-limiting-algorithm/)
+[11 Things You Wish You Knew Before Starting with DynamoDB](https://blog.yugabyte.com/11-things-you-wish-you-knew-before-starting-with-dynamodb/)
