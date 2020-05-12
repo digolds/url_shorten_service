@@ -57,9 +57,13 @@
 * reliable
 * [congestion control](https://www.noction.com/blog/tcp-transmission-control-protocol-congestion-control)
 * [TCP Flow Control](https://www.brianstorti.com/tcp-flow-control/)
+* [TCP and BBR](https://www.potaroo.net/presentations/2017-11-23-bbr.pdf)
 
 2. http
-3. 
+3. 限流算法，优点和缺点，使用场景
+4. 熔断算法，优点和缺点，使用场景
+5. 负载均衡算法，优点和缺点，使用场景
+6. 分布式事务，优点和缺点，使用场景
 
 ### AWS service
 
@@ -73,6 +77,7 @@
 * [What is DynamoDB?](https://www.dynamodbguide.com/what-is-dynamo-db)
 * [See AWS bills broken down by tags](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html)
 * [Best Practices for Designing and Architecting with DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html)
+* [Building DynamoDB brick by brick](https://medium.com/swlh/building-dynamodb-brick-by-brick-237e0008b698)
 
 6. Serverless
 
@@ -85,3 +90,11 @@
 1. Independent Deployability
 2. Modeled Around a Business Domain
 3. Own Their Own Data
+
+
+## book
+
+* Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems
+* Building MicroServices
+* Kubernete in action
+* Monolith to Microservices: Evolutionary Patterns to Transform Your Monolith

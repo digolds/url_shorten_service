@@ -244,20 +244,19 @@ import math
 
 def partition(data, low, high):
     pe = data[low]
-    pi = 0
-    left = low
+    pi = low
+    left = low + 1
     right = high
-    while left < right:
-        while data[left] < pe:
+    while pi < right:
+        if pe >= data[left]:
+            data[pi] = data[left]
+            pi = left
             left = left + 1
-        while data[right] > pe:
+        else:
+            data[left], data[right] = data[right], data[left]
             right = right - 1
 
-        tmp = data[left]
-        data[left] = data[right]
-        data[right] = tmp
-        pi = left
-
+    data[pi] = pe
     return pi
 
 
@@ -267,12 +266,10 @@ def quick_sort(data, low, high):
 
     mid = partition(data, low, high)
 
-    data[mid] = data[mid]
     quick_sort(data, low, mid - 1)
     quick_sort(data, mid + 1, high)
 
 
-data = [5, 6, 5, 8, 1, 5]
-data = [4, 6, 3, 8, 1, 5]
+data = [5, 5, 5, 5, 1, 5]
 quick_sort(data, 0, len(data) - 1)
 print(data)
