@@ -44,12 +44,12 @@
 
 In Chapter 3, my intention was to cover nonfunctional requirements (NFRs) in a logical but informal way. This chapter is about using these requirements to build a test plan: a performance testing checklist divided into logical stages as shown bekow:
 
-Step 1: Nonfunctional Requirements Capture
-Step 2: Performance Test Environment Build
-Step 3: Use-Case Scripting
-Step 4: Performance Test Scenario Build
-Step 5: Performance Test Execution
-Step 6: Post-Test Analysis and Reporting
+* Step 1: Nonfunctional Requirements Capture
+* Step 2: Performance Test Environment Build
+* Step 3: Use-Case Scripting
+* Step 4: Performance Test Scenario Build
+* Step 5: Performance Test Execution
+* Step 6: Post-Test Analysis and Reporting
 
 阶段一，搜集被测试软件的信息，准备测试所依赖的条件，这一阶段的工作事项有：
 
