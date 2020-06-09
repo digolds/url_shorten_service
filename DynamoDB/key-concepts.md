@@ -42,7 +42,7 @@
 
 **global secondary index**使用了与表完全不同的分区键和排序键来构成索引。你可以选择其它属性（不包含表的分区键）作为索引的分区键，从而构成该索引的简单主键，当然你也可以选择2个属性来构成索引的主键。假设有一张表，我们可以在这张表上定义一个global secondary index，该索引的分区键是订单号（OrderID），而排序键可以不设置，从而构成一个简单的主键。接着我们可以通过这个索引来根据订单号高效获取某个具体的订单，而无需通过查找用户和用户名下的订单这种低效的方式来查找。
 
-附加索引是一个异常复杂的话题，但是这个功能却非常实用。它是实现不同查询模式的基础，想要深入了解和应用附件索引，读者可以前往[这里]((https://github.com/digolds/url_shorten_service/blob/release/DynamoDB/secondary-indexes.md)。
+附加索引是一个异常复杂的话题，但是这个功能却非常实用。它是实现不同查询模式的基础，想要深入了解和应用附件索引，读者可以前往[这里](https://github.com/digolds/url_shorten_service/blob/release/DynamoDB/secondary-indexes.md)。
 
 ## 读和写单元
 
