@@ -11,15 +11,15 @@
 
 ## Dynamo的几个关键点
 
-**非关系型数据建模**
+**非关系型数据模型**
 
-The relational data model is a useful way to model many types of data. Often, relational data is normalized to improve the integrity of the data. Rather than duplicating a particular piece of data in multiple rows, you can store it in one place and refer to it using a JOIN operation from one table to another. Now you can update that single place, and all items that refer to that data will gain the benefits of the update as well.
+关系型数据模型可以用来为不同类型的数据建模（比如针对一个电商的用户和订单来建模）。通常，使用关系型数据建模的方式为数据建模，需要将关联的数据拆分成更小的数据单元，以便这些数据是不重复的，这就是关系型数据库中著名的**第一范式**。其做法是，如果某类实体数据想要使用另外一类实体数据（比如将订单和用户关联），那么只需要将2类不同的实体数据存储在不同的表格，然后通过外键的方式来关联这2类数据以及通过**JOIN**操作来拼接和获取这2类数据。此时，你只需要修改某个实体（比如某个用户的用户名），那么另一个数据实体（比如订单所属的用户名也发生了变化）所引用的数据也会因此而变化。
 
-Yet one of the most interesting findings of the Amazon.com engineers while gathering their database requirements was how their engineers were using their relational databases:
+然而，Amazon.com工程师在收集数据库需求时发现了一个非常有趣的结果：
 
->About 70 percent of operations were of the key-value kind, where only a primary key was used and a single row would be returned. About 20 percent would return a set of rows, but still operate on only a single table.
+>大约70%对数据库的操作是key-value类型，这些操作仅仅使用主键来获取单条数据。大约20%的操作会返回一个数据集，但是这些数据集均来自于同一张表。
 >
->-- Werner Vogels, A Decade of Dynamo
+>-- Werner Vogels, [A Decade of Dynamo](http://www.allthingsdistributed.com/2017/10/a-decade-of-dynamo.html)
 
 This is a huge deal -- 90% of operations weren't using the JOIN functionality that is core to a relational database!
 
