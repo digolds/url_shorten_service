@@ -1,22 +1,22 @@
 # DynamoDB的环境搭建
 
-In many of the subsequent lessons, we'll be directly interacting with the AWS DynamoDB APIs. To do this, we'll need to set up our environment.
+后续的内容将涉及DynamoDB的API，比如通过AWS CLI来操作DynamoDB。为了操作DynamoDB，我们需要搭建DynamoDB的环境。
 
-## Install the AWS CLI
+## 安装 AWS CLI
 
-The AWS CLI is a nice command line utility for interacting with AWS services.
+[AWS CLI](https://aws.amazon.com/cli/)是AWS提供的命令行工具，开发者通过使用这个工具能够方便地使用AWS所提供的云服务，包括DynamoDB服务。运行以下命令来安装AWS CLI：
 
 ```bash
 $ pip install awscli
 ```
 
-If you have trouble installing it, check the install instructions here.
+如果在安装过程种遇到困难，可以参考这里[进行](http://docs.aws.amazon.com/cli/latest/userguide/installing.html)安装。
 
-## Get IAM credentials
+## 获取认证和授权
 
-If you want to use a real AWS account, you'll need to set up your environment with the proper IAM credentials. You can read the AWS docs on doing that here.
+如果你打算使用AWS提供的DynamoDB服务，那么你需要正确地设置认证和授权的权限，具体需要参考[官方文档](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-quick-configuration)。
 
-The quickest route is to create an IAM profile with full DynamoDB permissions. The Policy statement would look like:
+比较简单的一种方式是授予开发者所有关于DynamoDB操作的权限，其策略定义如下：
 
 ```bash
 {
@@ -33,7 +33,7 @@ The quickest route is to create an IAM profile with full DynamoDB permissions. T
 }
 ```
 
-Once you have the keys for your IAM user, you can add your profile with aws configure:
+一旦你在AWS上申请了一个账号并得到了能够操作DynamoDB的凭证，那么你还需要将这个凭证通过以下方式设置到本地电脑
 
 ```bash
 $ aws configure
@@ -43,11 +43,11 @@ Default region name [None]: us-west-2
 Default output format [None]: json
 ```
 
-## (Optional) Use DynamoDB Local
+## 在本地搭建DynamoDB服务
 
-AWS has a downloadable version of DynamoDB that you can run locally. This is ideal if you don't want to configure a real AWS account or if you want to avoid any AWS charges.
+AWS提供了可在本地运行的DynamoDB，它可以在本地运行，免除了凭证的设置和避免了使用云端DynamoDB所产生的费用。
 
-To use it, download the zip file and unzip it:
+想要在本地使用DynamoDB，那么根据以下指令下载和安装DynamoDB：
 
 ```bash
 $ curl -O https://s3-us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.zip
@@ -55,7 +55,7 @@ $ unzip dynamodb_local_latest.zip
 $ rm dynamodb_local_latest.zip
 ```
 
-Then start your DynamoDB local instance:
+下载好之后，通过以下命令在本地启动DynamoDB实例：
 
 ```bash
 $ java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
@@ -69,17 +69,17 @@ shouldDelayTransientStatuses:	false
 CorsParams:	*
 ```
 
-If you see the initialization message in your terminal, you've successfully started the DynamoDB Local emulator. You're now ready to get started.
+如果你看到以上信息，那么说明，DynamoDB已经成功在本地上运行了。接下来便可以操作DynamoDB了。
 
-## The $LOCAL variable
+## 本地 $LOCAL 变量
 
-If you want to use the DynamoDB local emulator, you'll need to append the following flag to all commands given in the examples:
+如果你使用本地的DynamoDB来练习，那么你需要在每一个指令后面追加以下参数：
 
 ```bash
 --endpoint-url http://localhost:8000
 ```
 
-I don't like typing the full flag every time so I export it to a variable and use that shorthand:
+当然以上参数可以设置成环境变量，并用较短的环境变量来替代，如下所示：
 
 ```bash
 $ export LOCAL="--endpoint-url http://localhost:8000"
@@ -87,4 +87,6 @@ $ export LOCAL="--endpoint-url http://localhost:8000"
 $ aws dynamodb list-tables $LOCAL
 ```
 
-All examples will include the $LOCAL flag for easier copy-paste functionality. If you are using a real AWS account rather than the DynamoDB local emulator, make sure the $LOCAL variable is unset in your terminal.
+如果使用操作本地DynamoDB，那么需要在每一个操作指令后面追加`$LOCAL`，如上所示。如果操作的是云端的DynamoDB，那么无需在每一个指令后面追加`$LOCAL`。
+
+* [原文链接](https://www.dynamodbguide.com/environment-setup)
