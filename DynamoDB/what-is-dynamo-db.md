@@ -24,4 +24,4 @@ DynamoDB适用于以下场景：
 
 如果想要获得更多关于DynamoDB的学习资料，那么[这里](https://github.com/digolds/url_shorten_service/blob/release/DynamoDB/additional-reading.md)将是一个不错的地方。
 
-[原文链接](https://www.dynamodbguide.com/what-is-dynamo-db)
+* [原文链接](https://www.dynamodbguide.com/what-is-dynamo-db)
