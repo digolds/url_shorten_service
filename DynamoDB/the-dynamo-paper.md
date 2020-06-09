@@ -21,27 +21,29 @@
 >
 >-- Werner Vogels, [A Decade of Dynamo](http://www.allthingsdistributed.com/2017/10/a-decade-of-dynamo.html)
 
-This is a huge deal -- 90% of operations weren't using the JOIN functionality that is core to a relational database!
+以上发现是问题的关键 -- 90%的操作不会使用JOIN功能，而这一功能却是关系型数据库的核心。
 
-The JOIN operation is expensive. At a large enough scale, engineers often denormalize their data to avoid making expensive joins and slowing down response times. This decrease in response time comes with a trade-off of increased application complexity -- now you need to manage more of your data integrity issues in your code rather than your database.
+JOIN操作非常消耗资源。当面对大规模的数据时，工程师通常会将数据复原为一个整体(拒绝使用第一范式)来避免使用JOIN操作而导致的高延时。 通过这种方式来降低响应延时的代价是增加了应用的复杂性--此时应用程序需要考虑数据的完整性而不是数据库本身。
 
-Amazon.com engineers were already making that trade-off of denormalization to improve response times. The realization that the relational model wasn't needed by Amazon engineers allowed the Dynamo designers to re-evaluate other aspects of a relational database.
+Amazon.com的工程师已经采用了以上方法来降低延时。实际上，正是意识到亚马逊工程师所需的并不是关系型数据模型，才使得Dynamo设计师重新评估关系型数据库的其它方面。
 
 **可用性比数据一致性更加重要**
 
-Most relational databases use a strongly consistent model for their data. Briefly, this means all clients of the server will see the same data if querying at the same time.
+大部分关系型数据库使用strongly consistent model来操作数据。简而言之，这种模式会使得所有客户端在同一时间能够获得相同的数据(想想这个场景:一个用户正在写数据，而多个用户正在读这个写的数据)。
 
-Let's use Twitter as an example. Imagine that Bob in Virginia tweets a cat picture at 2:30 PM. There are two users that view Bob's profile after he tweets his picture: his neighbor, Cheryl, and his uncle, Jeffrey, who lives in Singapore. If Twitter were using a strongly-consistent model, both Cheryl and Jeffrey should see Bob's most recent tweet as soon as it's committed to the database from Bob's action.
+让我们通过Twitter作为例子. 假设2:30PM，Bob在Virginia 发布了一条关于猫的信息。在信息发布之后，有2个用户查看了Bob发布的信息，他们分别是他的邻居Cheryl和住在新加坡的叔叔Jeffrey。如果Twitter使用strongly-consistent model，Cheryl和Jeffrey会看到Bob发布的关于猫的信息。
 
-This might not be ideal, for a few reasons. First, think of the geography involved in this scenario. Twitter could choose to have a single database instance to enable this strong consistency. This database instance may be located in Virginia, close to Bob and Cheryl. This results in fast responses to Bob and Cheryl, but very slow responses to Jeffrey as each request must cross an ocean from Singapore to Virginia to request the data, then return from Virginia to Singapore to return it to Jeffrey. This results in slower read times to some users.
+用这种方式来确保看到一致的信息不是最理想的，原因有以下几点:
 
-Instead of maintaining a single database instance, perhaps Twitter wants to have two instances that are exact replicas -- one in Virginia and one in Singapore. If we still want to maintain strong consistency, this means a user must get the same answer if she queries the Virginia instance or the Singapore instance at the same time. This could be implemented by a more complex system on database writes -- before Bob's tweet is committed to the database, it has to be submitted to both the Virginia instance and the Singapore instance. Now Bob's request needs to make the hop across the ocean and back. This results in slower write times to some users.
+首先，考虑地理位置的因素。Twitter选择一台数据库服务来实施strong consistency。该数据库服务位于Virginia，离Bob和Cheryl很近。这使得该服务的响应很快能到达Bob和Cheryl，但是到达Jeffrey所需的时间就变长了，因为猫的信息会跨越大西洋从Virginia到Singapore。从地理上来分析，Bob和Cheryl获取猫的信息所花的时间显然会比Jeffrey所需的时间短。这种只选择一台数据库服务来实施strong consistency model的结果是，一些用户，像Jeffrey，获取信息的时间会变得漫长起来。那么有什么方式能让这些用户获取信息的时间缩短?
 
-In the Dynamo paper, Amazon noted that strong consistency isn't important in all scenarios. In our example, it would be fine if Jeffrey and Cheryl saw slightly different versions of my profile even if they queried at the same time. Sometimes you can settle for eventual consistency, meaning different users will eventually see the same view of the data. Jeffrey will eventually see Bob's tweet in Singapore, but it may be at 2:32 PM rather than 2:30.
+抛弃只有一台数据服务的做法，Twitter可以选择2台数据库服务，每台数据库服务上的数据是相同的--其中一台放到Virginia另外一台放到Singapore。此时，如果我们依然需要实施strong consistency model， 那么就意味着同一个用户从以上2台数据库服务在同一时间获取同一份信息，其得到的数据是一样的。这也意味着Twitter需要在数据库服务上实现复杂的同步算法--在Bob发布的关于猫的信息提交到数据库之前，这些信息必须成功地提交到这2台数据服务上。此时，Bob的提交将往返于整个大西洋，最终导致用户的写操作变得更慢。
 
-Strong consistency is important for certain use cases - think bank account balances - but less important for others, such as our Twitter example or the Amazon shopping cart, which was the impetus for Dynamo. For these use cases, speed and availability are more important than a consistent view of the world. By weakening the consistency model of a relational database, the Dynamo engineers were able to provide a database that better fit the needs of Amazon.com.
+在Dynamo paper中，Amazon指出strong consistency在其业务场景中并不重要。具体应用到我们的例子中的场景是:Jeffrey与Cheryl在同一时间将看到不同的版本的关于猫的信息。数据库服务可以使用eventual consistency model来同步数据。也就是说最终不同用户会看到相同的信息。Jeffrey最终会看到Bob发布的关于猫的信息，而这条信息于2:32 PM传送到Singapore，即便是这条信息于2:30 PM传送到Virginia。
 
-Note: This section is a massive simplification of consistency, availability, and other concepts around databases and distributed systems. You should really look at this as a very simple primer rather than a definitive text.
+Strong consistency model对于某些场景相当重要-比如银行账户中的余额-但对于某些场景并不重要，比如Twitter示例或者Amazon的购物车系统。 去掉strong consistency model的使用而换成eventual consistency model大大促进了Dynamo的发展。对于Twitter示例或者Amazon的购物车系统这类业务场景，速度和可用性比同时获取相同数据更加重要。通过减弱关系型数据库的consistency model，Dynamo的工程师能够研发更加适合Amazon.com业务场景的数据库-也就是论文中提到的Dynamo。
+
+注意: 这一节的内容简化了数据的一致性(consistency)，可用性(availability)，以及其它关于数据库和分布式系统的概念。你应该视其为初级知识而不是最终的解释。
 
 **无限伸缩**
 
