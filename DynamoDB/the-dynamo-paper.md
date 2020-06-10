@@ -47,25 +47,25 @@ Strong consistency model对于某些场景相当重要-比如银行账户中的�
 
 **无限伸缩**
 
-The final key aspect of Dynamo is that it is infinitely scalable without any negative performance impacts. This aspect is a result of the relaxing of relational and consistency constraints from prior databases.
+最后一个关键点是：Dynamo能够无限扩展，同时不会影响性能。使得Dynamo具有这种特性的原因在于：Dynamo避免使用关系型模型建模（比如剔除JOIN操作）以及避免使用strong consistency model（转而使用eventual consistency model）。
 
-When scaling out a system, you can either vertically scale (use a larger server instance with more CPUs or RAM) or you can horizontally scale by splitting your data across multiple machines, each of which has a subset of your full dataset. Vertical scaling gets expensive and eventually hits limits based on available technology. Horizontal scaling is cheaper but more difficult to achieve.
+当扩充一个系统的处理能力时，要么通过**垂直扩充**（比如：使用处理能力更强（更多CPUs或内存（RAM））的服务器），要么通过**水平扩充**（比如：将整套数据分割成不同的数据子集，并将每部分数据子集分配到不同的机器上）。垂直扩充会导致高昂的费用，最终这种扩充会达到极限（比如无法添加更多的CPUs）。然而水平扩充不会导致高昂的费用，同时不会受到限制，其缺点是实现起来并不是一件容易的事情。
 
-To think about horizontal scaling, imagine you have a dataset of Users that you want to distribute across three machines. You could choose to split them across machines based on the last name of the Users -- A through H go on machine 1, I through Q go on machine 2, and R through Z go on machine 3.
+让我们通过一个例子来理解**水平扩充**。假设：你有一个装满用户信息的数据集，该数据集切割成3部分，并将每一部分存储在不同的机器上。此时，你制定了一个分布策略：根据用户姓氏来分配。比如A到H姓氏的数据存储在机器1，I到Q姓氏的数据存储在机器2，R到Z姓氏的数据存储在机器3。
 
-This is nice if you're getting a single User -- a call to retrieve Linda Duffy can go directly to machine 1 -- but can be slow if your query spans multiple machines. A query to get all users older than 18 will have to hit all three machines, resulting in slower responses.
+如果我们只是获取某个用户的信息，这种分配策略是没问题的（因为响应时间很短）--比如：如果我们想获取Linda Duffy的信息，那么我们只需要发送一个请求到机器1。然而，如果你想从多台机器获取不同的数据，那么这种分配策略显然不适合这类查询模式（因为响应时间变长了）--比如：获取所有年龄超过18岁的用户信息。
 
-Similarly, we saw in the previous section how strong consistency requirements can make it difficult to scale out. We would introduce latency during writes to make sure the write is committed to all nodes before returning to the writing user.
+同样，**水平扩充**也会因strong consistency model而受阻。比如：我将一整套数据复制到不同的机器，那么当我更新某台机器上的数据时，其它机器也需要同步这些修改。这就要求用户写入数据时，需要等待该数据成功同步到所有机器之后才能进行或许的操作，这无疑增加了响应延时。
 
-Relaxing these requirements makes it much easier for Dynamo to scale horizontally without sacrificing performance. DynamoDB uses consistent hashing to spread items across a number of nodes. As the amount of data in your DynamoDB table increases, AWS can add additional nodes behind the scenes to handle this data.
+为了支持水平扩充来提供稳定的性能，需要削弱Dynamo对上述阻力的依赖。为了无限存储数据，DynamoDB使用了[一致性hash算法](https://en.wikipedia.org/wiki/Consistent_hashing)来将数据均匀分布到不同的数据节点上。随着数据量增多，AWS能自动添加新的节点来存储新增的数据，并将部分且少量的数据从老节点挪动到新的节点上。
 
-DynamoDB avoids the multiple-machine problem by essentially requiring that all read operations use the primary key (other than Scans). From our Users example before, our primary key could be LastName, and Amazon would distribute the data accordingly. If you do need to query via Age, you would use a secondary index to apply the same distribution strategy via a different key.
+为了避免处理分布在不同机器上的数据，DynamoDB要求所有的读数据操作都必须通过主键来完成（而不是遍历整个数据集）。再来看看之前提到的关于存储用户数据的例子：该数据集的主键是用户的姓氏，DynamoDB会根据前面提到的一致性hash算法来均匀分布数据。如果想获取年龄超过18岁的用户信息，那么需要建立[附加索引](https://github.com/digolds/url_shorten_service/blob/release/DynamoDB/secondary-indexes.md)来重新映射原来的数据集，使得年龄超过18岁的用户集中在一台机器上，最终使得这类查询只需从一台机器上获取数据。
 
-Finally, because DynamoDB allows for eventual consistency, it allows for easier replication strategies of your data. You can have your item copied onto three different machines and query any of them for increased throughput. It's possible one of the machines has a slightly different view of the item at different times due to the eventual consistency model, but this is a trade-off worth accepting for many use cases. Also, you may explicitly specify a strongly-consistent read if it is required for your application.
+最后，由于DynamoDB采用了eventual consistency model，这种策略使得同步数据变得更加容易。你可以将数据复制到不同的机器上，然后从任意一台机器上查找数据，这样，获取同一份数据的吞吐量提高了（比如现在有3台机器提供相同的数据）。然后采用这种策略会使得不同时间点，3台机器上的数据会不一样，但在某一个时间点所有机器上的数据最终会保持一致。对于那些对数据一致性不高的应用场景，这种缺点依然可以接受。如果你无法接受这种缺陷，那么你依然可以为DynamoDB指定strongly-consistent model。
 
-These changes make it possible for DynamoDB to provide query latencies in single-digit milliseconds for virtually unlimited amounts of data -- 100TB+.
+在DynamoDB中引入这些改变使得它面对无限（超过100TBs）的数据依然能提供1ms之内的查询延时。
 
-Ready to dig in? Set up your environment then get started with some operations.
+准备好使用DynamoDB来处理100TBs以上的数据？请从[准备环境](https://github.com/digolds/url_shorten_service/blob/release/DynamoDB/environment-setup.md)开始，然后[对单条数据进行操作](https://github.com/digolds/url_shorten_service/blob/release/DynamoDB/anatomy-of-an-item.md)。
 
 ## 参考
 
@@ -73,3 +73,4 @@ Ready to dig in? Set up your environment then get started with some operations.
 * [Dynamo: Amazon's Highly Available Key-value Store](http://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf)
 * [CAP Theorum](https://en.wikipedia.org/wiki/CAP_theorem)
 * [Amazon Takes Another Pass at NoSQL with DynamoDB](http://readwrite.com/2012/01/18/amazon-enters-the-nosql-market/)
+* [原文链接](https://github.com/digolds/url_shorten_service/blob/release/DynamoDB/the-dynamo-paper.md)
