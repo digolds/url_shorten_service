@@ -65,7 +65,7 @@ Strong consistency model对于某些场景相当重要-比如银行账户中的�
 
 在DynamoDB中引入这些改变使得它面对无限（超过100TBs）的数据依然能提供1ms之内的查询延时。
 
-准备好使用DynamoDB来处理100TBs以上的数据？请从[准备环境](https://github.com/digolds/url_shorten_service/blob/release/DynamoDB/environment-setup.md)开始，然后[对单条数据进行操作](https://github.com/digolds/url_shorten_service/blob/release/DynamoDB/anatomy-of-an-item.md)。
+准备好使用DynamoDB来处理100TBs以上的数据，同时期望其依然能够提供稳定的性能？请从[准备环境](https://github.com/digolds/url_shorten_service/blob/release/DynamoDB/environment-setup.md)开始，然后[对单条数据进行操作](https://github.com/digolds/url_shorten_service/blob/release/DynamoDB/anatomy-of-an-item.md)。
 
 ## 参考
 
