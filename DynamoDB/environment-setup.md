@@ -1,6 +1,6 @@
 # DynamoDB的环境搭建
 
-后续的内容将涉及DynamoDB的API，比如通过AWS CLI来操作DynamoDB。为了操作DynamoDB，我们需要搭建DynamoDB的环境。
+DynamoDB是一个完全托管于AWS的NoSQL解决方案。开发者可以选择直接在AWS上创建一个DynamoDB的表或者将DynamoDB安装到本地。后续的内容将涉及DynamoDB的API，比如通过AWS CLI来操作DynamoDB。为了操作DynamoDB，我们需要搭建DynamoDB的环境。
 
 ## 安装 AWS CLI
 

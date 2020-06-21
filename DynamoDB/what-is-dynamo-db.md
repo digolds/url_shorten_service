@@ -1,6 +1,6 @@
 # 什么是DynamoDB？
 
-[DynamoDB](https://aws.amazon.com/dynamodb/)是一个由AWS提供的NoSQL数据库。它具有以下特点：
+[DynamoDB](https://aws.amazon.com/dynamodb/)是一个由AWS提供的NoSQL数据库服务。它完全托管于AWS，开发者只需要定义数据访问模式以及一些关键信息，就能通过HTTP API来使用它。它具有以下特点：
 
 * 随着数据量的剧增，它依然能够提供稳定的性能输出
 * 它完全由AWS管理。开发人员不需要SSH到其服务器，不需要管理服务器，不需在服务器上更新OS补丁和加密库等

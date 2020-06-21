@@ -73,4 +73,4 @@ Strong consistency model对于某些场景相当重要-比如银行账户中的�
 * [Dynamo: Amazon's Highly Available Key-value Store](http://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf)
 * [CAP Theorum](https://en.wikipedia.org/wiki/CAP_theorem)
 * [Amazon Takes Another Pass at NoSQL with DynamoDB](http://readwrite.com/2012/01/18/amazon-enters-the-nosql-market/)
-* [原文链接](https://github.com/digolds/url_shorten_service/blob/release/DynamoDB/the-dynamo-paper.md)
+* [原文链接](https://www.dynamodbguide.com/the-dynamo-paper)
